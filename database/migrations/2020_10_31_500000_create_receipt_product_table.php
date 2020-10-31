@@ -19,6 +19,7 @@ class CreateReceiptProductTable extends Migration
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
             $table->decimal('price', 10, 1);
             $table->unsignedInteger('quantity');
+            $table->decimal('price_total', 10, 1);
         });
     }
 

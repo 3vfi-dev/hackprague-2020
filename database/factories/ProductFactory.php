@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -23,6 +24,7 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
+            'company_id' => Company::factory(),
             'code' => Str::random(64),
             'name' => $this->faker->words(3, true),
             'price' => $this->faker->randomFloat(1, 1, 10000),

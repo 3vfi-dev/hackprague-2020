@@ -3,8 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Company;
+use App\Models\Product;
 use App\Models\Receipt;
+use App\Models\ReceiptProduct;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class ReceiptFactory extends Factory
@@ -26,6 +29,26 @@ class ReceiptFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'code' => Str::random(64),
+            'custom_text' => $this->faker->sentence,
         ];
+    }
+
+    /**
+     * Generate random products along with the receipt.
+     *
+     * @param  int  $count
+     * @return ReceiptFactory
+     */
+    public function addProducts(int $count = 5): self
+    {
+        $products = Product::factory()
+            ->count($count)
+            ->state(function (array $attributes, Model $model) {
+                return ['company_id' => $model->getAttribute('company_id')];
+            });
+
+        return $this->hasAttached($products, static function () {
+            return ReceiptProduct::factory()->raw();
+        });
     }
 }

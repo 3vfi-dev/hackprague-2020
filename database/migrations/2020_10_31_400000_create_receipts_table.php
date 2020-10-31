@@ -16,7 +16,8 @@ class CreateReceiptsTable extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete();
-            $table->string('code', 128);
+            $table->char('code', 64);
+            $table->text('custom_text')->nullable();
             $table->timestamps();
         });
     }
