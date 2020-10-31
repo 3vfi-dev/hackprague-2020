@@ -20,6 +20,7 @@ class Product extends Model
         'code',
         'name',
         'price',
+        'quantity_text',
     ];
 
     /**

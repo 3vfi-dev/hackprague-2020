@@ -17,6 +17,10 @@ class Receipt extends Model
      */
     protected $fillable = [
         'code',
+        'custom_text',
+        'pkp',
+        'fik',
+        'bkp',
     ];
 
     /**

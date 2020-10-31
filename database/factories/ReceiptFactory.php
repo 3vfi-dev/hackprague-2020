@@ -30,6 +30,9 @@ class ReceiptFactory extends Factory
             'company_id' => Company::factory(),
             'code' => Str::random(64),
             'custom_text' => $this->faker->sentence,
+            'pkp' => Str::random(200),
+            'fik' => Str::random(64),
+            'bkp' => Str::random(64),
         ];
     }
 

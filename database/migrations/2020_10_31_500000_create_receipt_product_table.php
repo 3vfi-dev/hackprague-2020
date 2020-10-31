@@ -17,9 +17,12 @@ class CreateReceiptProductTable extends Migration
             $table->id();
             $table->foreignId('receipt_id')->constrained()->cascadeOnDelete();
             $table->foreignId('product_id')->constrained()->cascadeOnDelete();
+            $table->unsignedSmallInteger('vat')->default(0);
             $table->decimal('price', 10, 1);
+            $table->decimal('price_with_vat', 10, 1);
             $table->unsignedInteger('quantity');
             $table->decimal('price_total', 10, 1);
+            $table->decimal('price_with_vat_total', 10, 1);
         });
     }
 

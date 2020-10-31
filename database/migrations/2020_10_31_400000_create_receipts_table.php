@@ -18,6 +18,9 @@ class CreateReceiptsTable extends Migration
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete();
             $table->char('code', 64);
             $table->text('custom_text')->nullable();
+            $table->string('pkp');
+            $table->string('fik', 64);
+            $table->string('bkp', 64);
             $table->timestamps();
         });
     }

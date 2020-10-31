@@ -21,13 +21,17 @@ class ReceiptProductFactory extends Factory
      */
     public function definition(): array
     {
+        $vat = $this->faker->numberBetween(0, 21);
         $price = $this->faker->randomFloat(1, 1, 10000);
-        $quantity = $this->faker->randomNumber(1);
+        $quantity = $this->faker->randomNumber(1) + 1;
 
         return [
+            'vat' => $vat,
             'price' => $price,
+            'price_with_vat' => $price * (1 + ($vat / 100)),
             'quantity' => $quantity,
             'price_total' => $price * $quantity,
+            'price_with_vat_total' => $price * $quantity * (1 + ($vat / 100)),
         ];
     }
 }
