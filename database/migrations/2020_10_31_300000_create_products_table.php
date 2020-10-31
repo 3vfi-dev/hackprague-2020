@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->string('name', 128);
             $table->decimal('price', 10, 1);
             $table->string('quantity_text', 8)->nullable();
+            $table->unsignedSmallInteger('warranty')->default(24);
             $table->timestamps();
         });
     }

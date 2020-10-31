@@ -21,6 +21,7 @@ class Product extends Model
         'name',
         'price',
         'quantity_text',
+        'warranty',
     ];
 
     /**

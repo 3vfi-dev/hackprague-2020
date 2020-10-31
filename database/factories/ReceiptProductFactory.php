@@ -32,6 +32,7 @@ class ReceiptProductFactory extends Factory
             'quantity' => $quantity,
             'price_total' => $price * $quantity,
             'price_with_vat_total' => $price * $quantity * (1 + ($vat / 100)),
+            'warranty' => $this->faker->numberBetween(12, 120),
         ];
     }
 }

@@ -31,6 +31,7 @@ class ProductFactory extends Factory
             'name' => $this->faker->words(3, true),
             'price' => $this->faker->randomFloat(1, 1, 10000),
             'quantity_text' => $this->faker->randomElement(['ks', 'kg', null]),
+            'warranty' => $this->faker->numberBetween(12, 120),
         ];
     }
 }
