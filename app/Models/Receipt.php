@@ -85,7 +85,7 @@ class Receipt extends Model
 
             $totalPrice += $product->price * $item['quantity'];
             $totalPriceWithVat += $product->price * $item['quantity'] * (1 + $product->category->vat / 100);
-            $quantity += $item['quantity'];
+            $quantity += $product->quantity_text === 'kg' ? 1 : $item['quantity'];
         }
 
         $this->setAttribute('price_total', $totalPrice);
