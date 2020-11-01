@@ -8,11 +8,21 @@ use App\Models\Company;
 use App\Models\Product;
 use App\Models\Receipt;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class ReceiptController extends Controller
 {
+    /**
+     * Set middlewares to the actions.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('client:check-receipts')->except(['store']);
+        $this->middleware('check-receipts')->except(['store']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +30,9 @@ class ReceiptController extends Controller
      */
     public function index(): JsonResponse
     {
-        //
+        return response()->json([
+            'error' => false,
+        ]);
     }
 
     /**
@@ -58,29 +70,6 @@ class ReceiptController extends Controller
      * @return JsonResponse
      */
     public function show(Receipt $receipt): JsonResponse
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  Receipt  $receipt
-     * @return JsonResponse
-     */
-    public function update(Request $request, Receipt $receipt): JsonResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Receipt  $receipt
-     * @return JsonResponse
-     */
-    public function destroy(Receipt $receipt): JsonResponse
     {
         //
     }
