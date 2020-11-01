@@ -24,6 +24,7 @@ class CategoryFactory extends Factory
         return [
             'title' => $this->faker->words(3, true),
             'vat' => $this->faker->numberBetween(0, 21),
+            'warranty_text' => $this->faker->boolean(20),
         ];
     }
 }

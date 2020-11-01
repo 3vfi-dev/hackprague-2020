@@ -17,6 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->string('title', 64);
             $table->unsignedSmallInteger('vat');
+            $table->boolean('warranty_text')->default(false);
             $table->timestamps();
         });
     }

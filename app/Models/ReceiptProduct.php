@@ -15,4 +15,23 @@ class ReceiptProduct extends Pivot
      * @var bool
      */
     public $incrementing = true;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
+    /**
+     * Determine if the model uses timestamps.
+     *
+     * @return bool
+     */
+    public function usesTimestamps(): bool
+    {
+        return false;
+    }
 }

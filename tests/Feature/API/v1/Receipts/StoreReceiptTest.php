@@ -41,7 +41,7 @@ class StoreReceiptTest extends TestCase
                 [
                     'code' => $product->getAttribute('code'),
                     'vat' => true,
-                    'quantity' => 5,
+                    'quantity' => $quantity = 5,
                 ],
             ],
         ];
@@ -57,5 +57,7 @@ class StoreReceiptTest extends TestCase
         $this->assertSame($time->timestamp, $receipt->getAttribute('paid_at'));
         $this->assertCount(1, $receipt->products);
         $this->assertSame($product->getAttribute('code'), $receipt->products->first()->getAttribute('code'));
+        $this->assertSame((int) ($quantity * $product->getAttribute('price')), (int) $receipt->price_total);
+        $this->assertSame($quantity, (int) $receipt->products_quantity);
     }
 }

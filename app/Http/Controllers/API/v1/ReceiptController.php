@@ -4,11 +4,17 @@ namespace App\Http\Controllers\API\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Receipt\StoreReceiptRequest;
+use App\Http\Resources\ReceiptResource;
 use App\Models\Company;
 use App\Models\Product;
 use App\Models\Receipt;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
+use Throwable;
 
 class ReceiptController extends Controller
 {
@@ -26,13 +32,24 @@ class ReceiptController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse
+     * @return AnonymousResourceCollection
      */
-    public function index(): JsonResponse
+    public function index(): AnonymousResourceCollection
     {
-        return response()->json([
-            'error' => false,
-        ]);
+        /** @var User $user */
+        $user = Auth::guard('api')->user();
+        $receipts = $user->receipts()
+            ->latest()
+            ->with([
+                'company',
+                'company.address',
+                'company.address.country',
+            ])
+            ->paginate(25);
+
+        ReceiptResource::withoutProducts();
+
+        return ReceiptResource::collection($receipts);
     }
 
     /**
@@ -46,13 +63,16 @@ class ReceiptController extends Controller
      */
     public function store(StoreReceiptRequest $request): JsonResponse
     {
+        $inputtedProducts = $request->input('products');
+        $products = Product::with('category')->whereIn('code', Arr::pluck($inputtedProducts, 'code'))->get();
+
         $receipt = new Receipt($request->only(['hash', 'custom_text', 'pkp', 'fik', 'bkp']));
         $receipt->setAttribute('paid_at', $request->input('time'));
         $receipt->setAttribute('company_id', Company::whereCode($request->input('company'))->first()->getKey());
+        $receipt->calculatePrices($inputtedProducts, $products);
         $receipt->save();
 
-        $products = Product::whereIn('code', Arr::pluck($request->input('products'), 'code'))->get();
-        foreach ($request->input('products') as $data) {
+        foreach ($inputtedProducts as $data) {
             /** @var Product $product */
             $product = $products->where('code', $data['code'])->first();
             $receipt->attachProduct($product, $data['quantity'], $data['vat']);
@@ -67,10 +87,15 @@ class ReceiptController extends Controller
      * Display the specified resource.
      *
      * @param  Receipt  $receipt
-     * @return JsonResponse
+     * @return ReceiptResource
+     *
+     * @throws UnauthorizedException
+     * @throws Throwable
      */
-    public function show(Receipt $receipt): JsonResponse
+    public function show(Receipt $receipt): ReceiptResource
     {
-        //
+        throw_if($receipt->user_id !== Auth::guard('api')->id(), new UnauthorizedException);
+
+        return (new ReceiptResource($receipt))->additional(['error' => false]);
     }
 }

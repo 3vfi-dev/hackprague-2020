@@ -24,6 +24,7 @@ class CreateReceiptProductTable extends Migration
             $table->unsignedInteger('quantity');
             $table->decimal('price_total', 10, 1);
             $table->decimal('price_with_vat_total', 10, 1);
+            $table->timestamp('created_at')->useCurrent();
         });
     }
 

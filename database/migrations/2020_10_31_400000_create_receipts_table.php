@@ -24,6 +24,9 @@ class CreateReceiptsTable extends Migration
             $table->char('bkp', 44)->unique()->comment('Comes from the EET system');
             $table->unsignedSmallInteger('cash_register')->default(0)->comment('Comes from the EET system');
             $table->unsignedInteger('receipt_number')->default(0)->comment('Comes from the EET system');
+            $table->decimal('price_total', 10, 1)->default(0);
+            $table->decimal('price_with_vat_total', 10, 1)->default(0);
+            $table->unsignedInteger('products_quantity')->default(0);
             $table->timestamps();
             $table->timestamp('paid_at');
         });

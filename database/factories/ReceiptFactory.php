@@ -27,6 +27,8 @@ class ReceiptFactory extends Factory
      */
     public function definition(): array
     {
+        $price = $this->faker->numberBetween(100, 100000);
+
         return [
             'company_id' => Company::factory(),
             'hash' => Str::random(128),
@@ -34,6 +36,9 @@ class ReceiptFactory extends Factory
             'pkp' => Str::random(344),
             'fik' => Str::random(39),
             'bkp' => Str::random(44),
+            'price_total' => $price,
+            'price_with_vat_total' => $price * ($this->faker->numberBetween(100, 121) / 100),
+            'products_quantity' => $this->faker->randomNumber(2),
             'paid_at' => $this->faker->dateTime->format(DateTime::ATOM),
         ];
     }
