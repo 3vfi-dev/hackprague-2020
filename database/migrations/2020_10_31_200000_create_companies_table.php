@@ -15,6 +15,7 @@ class CreateCompaniesTable extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('concern_id')->default(0)->comment('Comes from the EET system');
             $table->char('code', 64)->unique();
             $table->string('name');
             $table->string('crn', 32)->comment('Company Registration Number');
