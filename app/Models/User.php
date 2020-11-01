@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +29,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'secret',
     ];
 
     /**
@@ -40,4 +40,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Generate the user's TOTP token based on the timestamp.
+     *
+     * @param  int  $time
+     * @return string
+     */
+    public function generateSecret(int $time = 0): string
+    {
+        if (!$time) {
+            $time = now()->timestamp;
+        }
+
+        return hash_hmac('whirlpool', $time, $this->getAttribute('secret'));
+    }
 }

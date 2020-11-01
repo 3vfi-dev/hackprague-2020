@@ -16,12 +16,14 @@ class CreateReceiptsTable extends Migration
         Schema::create('receipts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete();
-            $table->char('code', 64);
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->char('hash', 128);
             $table->text('custom_text')->nullable();
-            $table->string('pkp');
-            $table->string('fik', 64);
-            $table->string('bkp', 64);
+            $table->string('pkp', 344)->nullable()->unique();
+            $table->char('fik', 39)->nullable()->unique();
+            $table->char('bkp', 44)->unique();
             $table->timestamps();
+            $table->timestamp('paid_at');
         });
     }
 

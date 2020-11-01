@@ -17,12 +17,21 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'code',
         'name',
         'price',
         'quantity_text',
         'warranty',
     ];
+
+    /**
+     * Get the category that the product belongs to.
+     *
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     /**
      * Get the company that the product belongs to.

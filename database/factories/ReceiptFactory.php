@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Product;
 use App\Models\Receipt;
 use App\Models\ReceiptProduct;
+use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -28,11 +29,12 @@ class ReceiptFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'code' => Str::random(64),
+            'hash' => Str::random(128),
             'custom_text' => $this->faker->sentence,
-            'pkp' => Str::random(200),
-            'fik' => Str::random(64),
-            'bkp' => Str::random(64),
+            'pkp' => Str::random(344),
+            'fik' => Str::random(39),
+            'bkp' => Str::random(44),
+            'paid_at' => $this->faker->dateTime->format(DateTime::ATOM),
         ];
     }
 

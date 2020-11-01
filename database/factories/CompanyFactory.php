@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Address;
 use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CompanyFactory extends Factory
 {
@@ -23,6 +24,7 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
+            'code' => Str::random(64),
             'name' => $this->faker->company,
             'crn' => $this->faker->ico,
             'vat' => 'CZ' . $this->faker->ico,
