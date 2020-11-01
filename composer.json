@@ -16,6 +16,7 @@
         "laravel/tinker": "^2.5"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.8",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.2",
@@ -56,6 +57,11 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate --ansi",
+            "@php artisan ide-helper:meta --ansi",
+            "@php artisan ide-helper:models --dir=app/Models --nowrite --ansi"
         ]
     }
 }
